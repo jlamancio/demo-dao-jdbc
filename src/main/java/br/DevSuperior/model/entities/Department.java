@@ -32,12 +32,10 @@ public class Department implements Serializable {
         Department that = (Department) o;
         return Objects.equals(id, that.id);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(id);
     }
-
     @Override
     public String toString() {
         return "Department{" +
