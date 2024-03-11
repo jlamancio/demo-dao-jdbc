@@ -18,7 +18,6 @@ public class SellerDaoJDBC implements SellerDao {
     public SellerDaoJDBC(Connection conn) {
         this.conn = conn;
     }
-
     @Override
     public void insert(Seller obj) {
         PreparedStatement st = null;
@@ -55,7 +54,6 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeStatement(st);
         }
     }
-
     @Override
     public void update(Seller obj) {
         PreparedStatement st = null;
@@ -76,21 +74,25 @@ public class SellerDaoJDBC implements SellerDao {
 
             st.executeUpdate();
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeStatement(st);
         }
-
     }
-
     @Override
     public void deleteById(Integer id) {
-
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("DELETE FROM seller Where Id = ?");
+            st.setInt(1, id);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            throw new DbException(e.getMessage());
+        } finally {
+            DB.closeStatement(st);
+        }
     }
-
     @Override
     public Seller findById(Integer id) {
         PreparedStatement st = null;
@@ -120,9 +122,7 @@ public class SellerDaoJDBC implements SellerDao {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
-
     }
-
     @Override
     public List<Seller> findAll() {
         PreparedStatement st = null;
